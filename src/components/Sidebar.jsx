@@ -1,51 +1,58 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {
-  BarChart3,
-  ClipboardList,
-  FileText,
-  IdCard,
-  Clock,
-  Footprints,
-  Flag,
-  Users,
-  Bell,
-  HelpCircle,
-  LogOut,
+  BarChart3, Bell, HelpCircle, Users, FileText, IdCard, Clock, Shield, Flag, LogOut
 } from "lucide-react";
 
-const Item = ({ to, icon: Icon, label }) => (
+const Item = ({ to, icon: Icon, children, onClick }) => (
   <NavLink
     to={to}
+    onClick={onClick}
     className={({ isActive }) =>
-      `flex items-center gap-2 rounded-md px-2 py-2 text-sm ${
-        isActive ? "bg-slate-200 text-slate-900 font-semibold" : "text-slate-700 hover:bg-slate-100"
-      }`
+      `flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium
+      ${isActive ? "bg-slate-200 text-slate-900" : "text-slate-700 hover:bg-slate-100"}`
     }
   >
-    <Icon className="h-4 w-4 text-slate-600" />
-    <span className="leading-tight">{label}</span>
+    <Icon size={16} />
+    <span>{children}</span>
   </NavLink>
 );
 
-export default function Sidebar() {
+export default function Sidebar({ open, onClose }) {
   return (
-    <div className="space-y-1">
-      <Item to="/progress" icon={BarChart3} label="Progress" />
-      <Item to="/shift" icon={ClipboardList} label="Roles & Scheduling" />
-      <Item to="/progress" icon={FileText} label="Documents" />
-      <Item to="/progress" icon={IdCard} label="I-9" />
-      <Item to="/shift" icon={Clock} label="Shift Selection" />
-      <Item to="/progress" icon={Footprints} label="Safety Footwear" />
-      <Item to="/progress" icon={Flag} label="First Day" />
-      <Item to="/team" icon={Users} label="Team" />
-      <Item to="/notifications" icon={Bell} label="Notifications" />
-      <Item to="/help" icon={HelpCircle} label="Help" />
+    <>
+      {/* overlay mobile */}
+      <div
+        onClick={onClose}
+        className={`fixed inset-0 z-40 bg-black/30 transition-opacity md:hidden
+        ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
+      />
 
-      <button className="mt-2 flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm text-red-600 hover:bg-red-50">
-        <LogOut className="h-4 w-4" />
-        Log out
-      </button>
-    </div>
+      <aside
+        className={`fixed left-0 top-14 z-50 h-[calc(100vh-56px)] w-72 bg-white p-3 shadow-lg transition-transform md:static md:top-0 md:h-auto md:w-auto md:rounded-xl md:shadow-sm
+        ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+      >
+        <div className="space-y-2">
+          <Item to="/progress" icon={BarChart3} onClick={onClose}>Progress</Item>
+          <Item to="/shift" icon={Clock} onClick={onClose}>Roles & Scheduling</Item>
+          <Item to="/documents" icon={FileText} onClick={onClose}>Documents</Item>
+          <Item to="/i9" icon={IdCard} onClick={onClose}>I-9</Item>
+          <Item to="/shift/select" icon={Clock} onClick={onClose}>Shift Selection</Item>
+          <Item to="/safety" icon={Shield} onClick={onClose}>Safety Footwear</Item>
+          <Item to="/first-day" icon={Flag} onClick={onClose}>First Day</Item>
+          <Item to="/team" icon={Users} onClick={onClose}>Team</Item>
+          <Item to="/notifications" icon={Bell} onClick={onClose}>Notifications</Item>
+          <Item to="/help" icon={HelpCircle} onClick={onClose}>Help</Item>
+
+          <button
+            className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+            type="button"
+          >
+            <LogOut size={16} />
+            Log out
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }
