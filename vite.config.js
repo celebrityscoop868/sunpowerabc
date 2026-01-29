@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/sunpowerabc/", // 👈 NOMBRE EXACTO DEL REPO
+  base: "/sunpowerabc/", // <-- el nombre EXACTO del repo
 });
