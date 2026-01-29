@@ -1,8 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import {
-  BarChart3, Bell, HelpCircle, Users, FileText, IdCard, Clock, Shield, Flag, LogOut
-} from "lucide-react";
+import { BarChart3, Clock, Bell, Users, HelpCircle, LogOut } from "lucide-react";
 
 const Item = ({ to, icon: Icon, children, onClick }) => (
   <NavLink
@@ -33,16 +31,25 @@ export default function Sidebar({ open, onClose }) {
         ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         <div className="space-y-2">
-          <Item to="/progress" icon={BarChart3} onClick={onClose}>Progress</Item>
-          <Item to="/shift" icon={Clock} onClick={onClose}>Roles & Scheduling</Item>
-          <Item to="/documents" icon={FileText} onClick={onClose}>Documents</Item>
-          <Item to="/i9" icon={IdCard} onClick={onClose}>I-9</Item>
-          <Item to="/shift/select" icon={Clock} onClick={onClose}>Shift Selection</Item>
-          <Item to="/safety" icon={Shield} onClick={onClose}>Safety Footwear</Item>
-          <Item to="/first-day" icon={Flag} onClick={onClose}>First Day</Item>
-          <Item to="/team" icon={Users} onClick={onClose}>Team</Item>
-          <Item to="/notifications" icon={Bell} onClick={onClose}>Notifications</Item>
-          <Item to="/help" icon={HelpCircle} onClick={onClose}>Help</Item>
+          <Item to="/progress" icon={BarChart3} onClick={onClose}>
+            Progress
+          </Item>
+
+          <Item to="/shift" icon={Clock} onClick={onClose}>
+            Shift Selection
+          </Item>
+
+          <Item to="/notifications" icon={Bell} onClick={onClose}>
+            Notifications
+          </Item>
+
+          <Item to="/team" icon={Users} onClick={onClose}>
+            Team
+          </Item>
+
+          <Item to="/help" icon={HelpCircle} onClick={onClose}>
+            Help
+          </Item>
 
           <button
             className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
