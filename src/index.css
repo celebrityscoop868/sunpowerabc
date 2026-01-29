@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
-  height: 100%;
-}
-
-body {
-  background: #f3f5f8;
-}
+/* base para que se vea como “app” */
+html, body, #root { height: 100%; }
+body { @apply bg-slate-100 text-slate-900; }
