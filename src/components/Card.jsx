@@ -1,21 +1,14 @@
 import React from "react";
 
-export default function Card({ title, children, footer }) {
+export default function Card({ title, children, className = "" }) {
   return (
-    <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
+    <div className={`rounded-lg border border-slate-200 bg-white shadow-sm ${className}`}>
       {title ? (
-        <div className="border-b bg-slate-50 px-4 py-3">
-          <div className="font-semibold text-slate-800">{title}</div>
+        <div className="border-b border-slate-200 px-4 py-3 text-lg font-semibold text-slate-800">
+          {title}
         </div>
       ) : null}
-
       <div className="px-4 py-3">{children}</div>
-
-      {footer ? (
-        <div className="border-t bg-slate-50 px-4 py-3 text-sm text-slate-600">
-          {footer}
-        </div>
-      ) : null}
     </div>
   );
 }
