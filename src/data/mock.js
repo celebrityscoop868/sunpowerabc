@@ -24,7 +24,7 @@ export const requiredTasks = [
     id: "rt2",
     title: "Employment Documents",
     desc: "Acknowledge required policies",
-    status: "completed",
+    status: "pending",
     to: "/documents",
   },
   {
