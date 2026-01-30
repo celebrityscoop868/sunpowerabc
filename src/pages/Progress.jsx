@@ -1,66 +1,60 @@
 import React from "react";
 import Card from "../components/Card.jsx";
-import StatusRow from "../components/StatusRow.jsx";
-import { progressSteps } from "../data/mock.js";
+import RequiredTaskRow from "../components/RequiredTaskRow.jsx";
+import { requiredTasks } from "../data/mock.js";
 import { Check } from "lucide-react";
 
 function Stepper({ steps, currentIndex = 1 }) {
   return (
     <div className="rounded-2xl border bg-white p-4 shadow-sm">
-      {/* Grid fijo: 7 círculos + 6 líneas (sin scroll) */}
-      <div className="grid items-center gap-x-2 [grid-template-columns:auto_1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr_auto]">
+      {/* Grid: cada columna amarra círculo + label */}
+      <div className="grid grid-cols-7 gap-2">
         {steps.map((label, i) => {
           const done = i < currentIndex;
           const current = i === currentIndex;
+          const last = i === steps.length - 1;
 
-          const circle = (
-            <div className="flex flex-col items-center">
+          return (
+            <div key={label} className="relative flex flex-col items-center">
+              {/* connector hacia la derecha (sin scroll/carrusel) */}
+              {!last && (
+                <div className="absolute left-1/2 top-[18px] h-1 w-full -translate-y-1/2">
+                  <div className="h-1 w-full rounded bg-slate-200" />
+                  <div
+                    className={[
+                      "absolute left-0 top-0 h-1 rounded",
+                      done ? "w-full bg-emerald-500" : current ? "w-1/2 bg-amber-400" : "w-0",
+                    ].join(" ")}
+                  />
+                </div>
+              )}
+
+              {/* circle */}
               <div
                 className={[
-                  "grid h-10 w-10 place-items-center rounded-full border-[3px] shadow-sm",
-                  done && "border-green-500 bg-green-500 text-white",
-                  current && "border-amber-400 bg-white text-amber-600",
-                  !done && !current && "border-slate-300 bg-white text-slate-300",
+                  "relative z-10 grid place-items-center rounded-full border-[3px] bg-white shadow-sm",
+                  "h-9 w-9 sm:h-10 sm:w-10",
+                  done && "border-emerald-500 bg-emerald-500 text-white",
+                  current && "border-amber-400 text-amber-600",
+                  !done && !current && "border-slate-300 text-slate-300",
                 ]
                   .filter(Boolean)
                   .join(" ")}
               >
-                {done ? (
-                  <Check size={18} />
-                ) : (
-                  <div className="h-3 w-3 rounded-full bg-current opacity-25" />
-                )}
+                {done ? <Check size={18} /> : <div className="h-3 w-3 rounded-full bg-current opacity-30" />}
               </div>
 
+              {/* label (amarrado a su punto) */}
               <div
                 className={[
-                  "mt-2 max-w-[40px] text-center text-[11px] font-semibold leading-tight",
-                  i === currentIndex ? "text-slate-900" : "text-slate-500",
+                  "mt-2 w-full text-center font-semibold leading-tight",
+                  "text-[11px] sm:text-sm",
+                  current ? "text-slate-900" : "text-slate-500",
                 ].join(" ")}
               >
                 {label}
               </div>
             </div>
-          );
-
-          // conector después del círculo (menos el último)
-          const connector =
-            i !== steps.length - 1 ? (
-              <div className="h-1 w-full rounded bg-slate-200">
-                <div
-                  className={[
-                    "h-1 rounded",
-                    done ? "w-full bg-green-500" : current ? "w-1/2 bg-amber-400" : "w-0",
-                  ].join(" ")}
-                />
-              </div>
-            ) : null;
-
-          return (
-            <React.Fragment key={label}>
-              {circle}
-              {connector}
-            </React.Fragment>
           );
         })}
       </div>
@@ -74,14 +68,20 @@ export default function Progress() {
       <div className="text-2xl font-bold text-slate-900">Progress</div>
 
       <Stepper
-        steps={["Apply", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"]}
+        steps={["Application", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"]}
         currentIndex={1}
       />
 
-      <Card title="Progress">
-        <div>
-          {progressSteps.map((s) => (
-            <StatusRow key={s.title} title={s.title} status={s.status} to={s.link} />
+      <Card title="Required Tasks" className="rounded-2xl">
+        <div className="divide-y">
+          {requiredTasks.map((t) => (
+            <RequiredTaskRow
+              key={t.title}
+              title={t.title}
+              desc={t.desc}
+              status={t.status}
+              to={t.to}
+            />
           ))}
         </div>
       </Card>
