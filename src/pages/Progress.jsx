@@ -1,4 +1,3 @@
-// src/pages/Progress.jsx
 import React from "react";
 import Card from "../components/Card.jsx";
 import RequiredTaskRow from "../components/RequiredTaskRow.jsx";
@@ -6,47 +5,34 @@ import { requiredTasks, stepperState } from "../data/mock.js";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 
-function Stepper({ steps, currentIndex = 0, completedIndex = -1 }) {
+function Stepper({ steps, currentIndex = 0 }) {
   return (
     <div className="rounded-2xl border bg-white p-4 shadow-sm">
       <div className="grid grid-cols-7 gap-2">
         {steps.map((label, i) => {
-          // ✅ DONE manda sobre CURRENT (si está completado, debe verse con check aunque sea el actual)
-          const done = i <= completedIndex;
-          const current = i === currentIndex && !done;
+          const done = i < currentIndex;     // ✅ COMPLETADO
+          const current = i === currentIndex;
           const last = i === steps.length - 1;
-
-          // Segmento (línea) hacia el siguiente punto
-          // - Verde completo si este paso ya está completado (y el siguiente es current o también completado)
-          // - Ámbar medio si vas “en progreso” hacia current
-          const segGreen = i < completedIndex || (i === completedIndex && currentIndex === i + 1);
-          const segAmber = !segGreen && i < currentIndex;
 
           return (
             <div key={label} className="relative flex flex-col items-center">
               {!last && (
                 <div className="absolute left-1/2 top-[14px] h-1 w-full -translate-y-1/2">
                   <div className="h-1 w-full rounded bg-slate-200" />
-                  <div
-                    className={[
-                      "absolute left-0 top-0 h-1 rounded",
-                      segGreen ? "w-full bg-emerald-500" : segAmber ? "w-1/2 bg-amber-400" : "w-0",
-                    ].join(" ")}
-                  />
+                  {done && (
+                    <div className="absolute left-0 top-0 h-1 w-full rounded bg-emerald-500" />
+                  )}
                 </div>
               )}
 
-              {/* circle */}
               <div
                 className={[
-                  "relative z-10 grid place-items-center rounded-full border-[3px] bg-white shadow-sm",
+                  "relative z-10 grid place-items-center rounded-full border-[3px] shadow-sm",
                   "h-8 w-8 sm:h-9 sm:w-9",
                   done && "border-emerald-500 bg-emerald-500 text-white",
-                  current && "border-amber-400 text-amber-600",
-                  !done && !current && "border-slate-300 text-slate-300",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
+                  current && !done && "border-amber-400 bg-white text-amber-600",
+                  !done && !current && "border-slate-300 bg-white text-slate-300",
+                ].join(" ")}
               >
                 {done ? (
                   <Check size={16} />
@@ -55,13 +41,10 @@ function Stepper({ steps, currentIndex = 0, completedIndex = -1 }) {
                 )}
               </div>
 
-              {/* label (amarrado al punto) */}
               <div
-                className={[
-                  "mt-2 w-full text-center font-semibold leading-tight",
-                  "text-[11px] sm:text-sm",
-                  current ? "text-slate-900" : "text-slate-500",
-                ].join(" ")}
+                className={`mt-2 text-center text-[11px] sm:text-sm font-semibold ${
+                  current ? "text-slate-900" : "text-slate-500"
+                }`}
               >
                 {label}
               </div>
@@ -84,13 +67,12 @@ function ContinueCta({ currentIndex }) {
     { label: "Continue to Start Work", to: "/first-day" },
   ];
 
-  const safeIndex = Math.min(Math.max(currentIndex, 0), ctas.length - 1);
-  const cta = ctas[safeIndex];
+  const cta = ctas[Math.min(currentIndex, ctas.length - 1)];
 
   return (
     <Link
       to={cta.to}
-      className="block w-full rounded-xl bg-slate-700 px-4 py-3 text-center text-lg font-extrabold text-white shadow hover:bg-slate-800 active:bg-slate-900"
+      className="block w-full rounded-xl bg-slate-700 px-6 py-4 text-center text-lg font-extrabold text-white shadow-md hover:bg-slate-800"
     >
       {cta.label}
     </Link>
@@ -98,14 +80,13 @@ function ContinueCta({ currentIndex }) {
 }
 
 export default function Progress() {
-  // ✅ Aquí es “arriba donde sacas state”
-  const { steps, currentIndex, completedIndex } = stepperState;
+  const { steps, currentIndex } = stepperState;
 
   return (
     <div className="space-y-4">
       <div className="text-3xl font-extrabold text-slate-900">Progress</div>
 
-      <Stepper steps={steps} currentIndex={currentIndex} completedIndex={completedIndex} />
+      <Stepper steps={steps} currentIndex={currentIndex} />
 
       <ContinueCta currentIndex={currentIndex} />
 
@@ -117,8 +98,7 @@ export default function Progress() {
               title={t.title}
               desc={t.desc}
               status={t.status}
-              // ✅ NO clickeable: no le pasamos "to"
-              to={undefined}
+              to={t.to}
             />
           ))}
         </div>
