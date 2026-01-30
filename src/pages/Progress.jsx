@@ -34,7 +34,7 @@ function Stepper({ steps, currentIndex = 1 }) {
 
               <div
                 className={[
-                  "mt-2 max-w-[50px] text-center text-[11px] font-semibold leading-tight",
+                  "mt-2 max-w-[45px] text-center text-[11px] font-semibold leading-tight",
                   i === currentIndex ? "text-slate-900" : "text-slate-500",
                 ].join(" ")}
               >
