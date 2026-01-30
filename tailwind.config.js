@@ -1,22 +1,80 @@
 /** @type {import('tailwindcss').Config} */
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+
+// ✅ Evita que el repo explote si NO instalaste tailwindcss-animate
+let animatePlugin = null;
+try {
+  animatePlugin = require("tailwindcss-animate");
+} catch (e) {
+  animatePlugin = null;
+}
+
 export default {
-  // ✅ Mantengo lo del repo actual (necesario)
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
-
-  // ✅ Tomo del antiguo lo que SÍ sirve sin meterte toda la basura de shadcn
   darkMode: ["class"],
-
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      // ✅ útil (no rompe nada aunque no uses --radius todavía)
       borderRadius: {
         lg: "var(--radius, 0.5rem)",
         md: "calc(var(--radius, 0.5rem) - 2px)",
         sm: "calc(var(--radius, 0.5rem) - 4px)",
       },
-
-      // ✅ dejo keyframes/animation SOLO si vas a usar tailwindcss-animate
-      // (no te meto los colores HSL de shadcn porque NO los estás usando)
+      // ✅ NECESARIO para shadcn/ui (tus ui/* lo usa directo)
+      colors: {
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        chart: {
+          1: "hsl(var(--chart-1))",
+          2: "hsl(var(--chart-2))",
+          3: "hsl(var(--chart-3))",
+          4: "hsl(var(--chart-4))",
+          5: "hsl(var(--chart-5))",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
+      },
+      // ✅ tu accordion.jsx usa estas animaciones
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -33,8 +91,5 @@ export default {
       },
     },
   },
-
-  // ✅ Si NO tienes instalado tailwindcss-animate, déjalo vacío.
-  // ✅ Si SÍ lo tienes instalado, deja esta línea.
-  plugins: [require("tailwindcss-animate")],
+  plugins: animatePlugin ? [animatePlugin] : [],
 };
