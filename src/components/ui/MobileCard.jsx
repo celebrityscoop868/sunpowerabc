@@ -1,6 +1,5 @@
-// src/components/ui/MobileCard.jsx
 import React from "react";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/utils";
 
 const MobileCard = React.forwardRef(function MobileCard(
   { children, className, onClick, ...props },
@@ -13,7 +12,7 @@ const MobileCard = React.forwardRef(function MobileCard(
       ref={ref}
       onClick={onClick}
       className={cn(
-        "bg-white rounded-2xl p-4 border border-slate-100 shadow-sm",
+        "bg-white rounded-2xl p-4 border border-slate-200 shadow-sm",
         clickable && "cursor-pointer active:bg-slate-50",
         className
       )}
@@ -24,5 +23,4 @@ const MobileCard = React.forwardRef(function MobileCard(
   );
 });
 
-MobileCard.displayName = "MobileCard";
 export default MobileCard;
