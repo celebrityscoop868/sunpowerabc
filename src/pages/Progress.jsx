@@ -11,7 +11,6 @@ function Stepper({ steps, currentIndex = 0, completedIndex = -1 }) {
       {/* Grid fijo: cada columna amarra círculo + label */}
       <div className="grid grid-cols-7 gap-2">
         {steps.map((label, i) => {
-          // ✅ Done: todo lo que está ANTES del currentIndex
           const done = i <= completedIndex;
           const current = i === currentIndex;
           const last = i === steps.length - 1;
@@ -43,11 +42,7 @@ function Stepper({ steps, currentIndex = 0, completedIndex = -1 }) {
                   .filter(Boolean)
                   .join(" ")}
               >
-                {done ? (
-                  <Check size={16} />
-                ) : (
-                  <div className="h-2.5 w-2.5 rounded-full bg-current opacity-30" />
-                )}
+                {done ? <Check size={16} /> : <div className="h-2.5 w-2.5 rounded-full bg-current opacity-30" />}
               </div>
 
               {/* label (amarrado al punto) */}
@@ -83,32 +78,32 @@ function ContinueCta({ currentIndex }) {
   const cta = ctas[safeIndex];
 
   return (
-    <Link
-      to={cta.to}
-      className="
-        block w-full rounded-xl bg-slate-600
-        px-5 py-4
-        text-center text-lg font-extrabold text-white
-        shadow-md hover:bg-slate-700 active:bg-slate-800
-      "
-    >
-      {cta.label}
-    </Link>
+    <div className="flex">
+      <Link
+        to={cta.to}
+        className="
+          inline-flex items-center justify-center
+          rounded-xl bg-slate-700
+          px-4 py-3
+          text-base font-extrabold text-white
+          shadow-md hover:bg-slate-800 active:bg-slate-900
+        "
+      >
+        {cta.label}
+      </Link>
+    </div>
   );
 }
 
 export default function Progress() {
-  const { steps, currentIndex } = stepperState;
+  // ✅ AQUÍ es donde se “saca state” (arriba dentro del componente)
+  const { steps, currentIndex, completedIndex } = stepperState;
 
   return (
     <div className="space-y-4">
       <div className="text-3xl font-extrabold text-slate-900">Progress</div>
 
-      <Stepper
-  steps={steps}
-  currentIndex={currentIndex}
-  completedIndex={stepperState.completedIndex}
-/>
+      <Stepper steps={steps} currentIndex={currentIndex} completedIndex={completedIndex} />
 
       <ContinueCta currentIndex={currentIndex} />
 
