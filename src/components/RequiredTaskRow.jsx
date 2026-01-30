@@ -1,8 +1,9 @@
+// src/components/RequiredTaskRow.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { CheckCircle2, Circle, Lock, ChevronRight, Hourglass } from "lucide-react";
 
-export default function RequiredTaskRow({ title, desc, status, to }) {
+export default function RequiredTaskRow({ title, desc, status, to, disabled = false }) {
   const completed = status === "completed";
   const locked = status === "locked";
   const pending = !completed && !locked;
@@ -32,11 +33,21 @@ export default function RequiredTaskRow({ title, desc, status, to }) {
         />
 
         <div className="min-w-0">
-          <div className={["font-semibold", locked ? "text-slate-300" : "text-slate-900"].join(" ")}>
+          <div
+            className={[
+              "font-semibold",
+              locked || disabled ? "text-slate-300" : "text-slate-900",
+            ].join(" ")}
+          >
             {title}
           </div>
 
-          <div className={["mt-0.5 text-sm", locked ? "text-slate-300" : "text-slate-500"].join(" ")}>
+          <div
+            className={[
+              "mt-0.5 text-sm",
+              locked || disabled ? "text-slate-300" : "text-slate-500",
+            ].join(" ")}
+          >
             {desc}
           </div>
 
@@ -53,11 +64,19 @@ export default function RequiredTaskRow({ title, desc, status, to }) {
         </div>
       </div>
 
-      <ChevronRight className={["mt-1 h-5 w-5", locked ? "text-slate-200" : "text-slate-300"].join(" ")} />
+      <ChevronRight
+        className={[
+          "mt-1 h-5 w-5",
+          locked || disabled ? "text-slate-200" : "text-slate-300",
+        ].join(" ")}
+      />
     </div>
   );
 
-  if (to && !locked) {
+  // ✅ Si está disabled, NUNCA se debe poder clickear aunque exista `to`
+  const canNavigate = Boolean(to) && !locked && !disabled;
+
+  if (canNavigate) {
     return (
       <Link to={to} className="block rounded-xl hover:bg-slate-50">
         {row}
@@ -65,5 +84,10 @@ export default function RequiredTaskRow({ title, desc, status, to }) {
     );
   }
 
-  return <div className="rounded-xl">{row}</div>;
+  // ✅ No clickable
+  return (
+    <div className={["rounded-xl", disabled ? "cursor-default" : ""].join(" ")}>
+      {row}
+    </div>
+  );
 }
