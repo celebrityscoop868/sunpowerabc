@@ -69,7 +69,7 @@ export const requiredTasks = [
 // ==========================
 export const stepperState = {
   steps: ["Apply", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"],
-  currentIndex: 1, // 0 = Application, 1 = Docs
+  currentIndex: 1, // 0 = Apply, 1 = Docs
 };
 
 // ==========================
