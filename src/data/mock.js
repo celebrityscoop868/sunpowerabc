@@ -1,5 +1,3 @@
-// src/data/mock.js
-
 // ==========================
 // Progress (legacy – puedes eliminarlo luego si ya no lo usas)
 // ==========================
@@ -69,6 +67,10 @@ export const requiredTasks = [
 // ==========================
 // Stepper state (controla el progreso visual)
 // ==========================
+// 🔥 IMPORTANTE:
+// - currentIndex = donde estás parado (el paso “actual”)
+// - completedIndex = hasta donde va el ✅ (incluye ese índice)
+//   Ejemplo: completedIndex: 0 => ✅ en Apply
 export const stepperState = {
   steps: ["Apply", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"],
   currentIndex: 1,   // estás parado en Docs
