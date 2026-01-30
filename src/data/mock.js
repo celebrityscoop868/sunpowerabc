@@ -65,12 +65,11 @@ export const requiredTasks = [
 ];
 
 // ==========================
-// Stepper state (controla el progreso visual)
+// Stepper state (solo controla "dónde estás parado")
 // ==========================
 export const stepperState = {
   steps: ["Apply", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"],
-  currentIndex: 1,     // dónde estás parado (Docs)
-  completedIndex: 0,   // ✅ hasta dónde está completado (Apply) => muestra check en Apply
+  currentIndex: 1, // dónde estás parado (Docs)
 };
 
 // ==========================
