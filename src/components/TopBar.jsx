@@ -5,7 +5,7 @@ export default function TopBar({ onMenu }) {
   return (
     <header className="sticky top-0 z-50 h-14 bg-slate-700 text-white shadow">
       <div className="mx-auto flex h-14 w-full max-w-[980px] items-center px-4">
-        {/* left spacer to truly center title */}
+        {/* left spacer (para centrar el titulo) */}
         <div className="w-10" />
 
         {/* centered title */}
@@ -13,7 +13,7 @@ export default function TopBar({ onMenu }) {
           Sun Power ABC
         </div>
 
-        {/* hamburger right */}
+        {/* right menu */}
         <button
           type="button"
           onClick={onMenu}
