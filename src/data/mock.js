@@ -92,3 +92,62 @@ export const shiftChoices = [
     roles: ["Solar Panel Assembler", "Material Handler / Warehouse Associate", "Quality Control / Inspection Associate"],
   },
 ];
+
+/** ✅ NEW: Required Tasks (captura 2) */
+export const requiredTasks = [
+  {
+    id: "rt1",
+    title: "Application",
+    subtitle: "Pre-approved before access",
+    status: "completed", // completed | pending | locked
+    link: "/progress",
+  },
+  {
+    id: "rt2",
+    title: "Employment Documents",
+    subtitle: "Acknowledge required policies",
+    status: "pending",
+    link: "/documents",
+  },
+  {
+    id: "rt3",
+    title: "I-9 Readiness",
+    subtitle: "Review eligibility verification requirements",
+    status: "pending",
+    link: "/i9",
+  },
+  {
+    id: "rt4",
+    title: "Safety Footwear",
+    subtitle: "Obtain required safety footwear",
+    status: "pending",
+    link: "/safety",
+  },
+  {
+    id: "rt5",
+    title: "Shift Selection",
+    subtitle: "Select your available work schedule",
+    status: "pending",
+    link: "/shift/select",
+  },
+  {
+    id: "rt6",
+    title: "Photo for Badge",
+    subtitle: "Complete badge photo requirements",
+    status: "locked",
+    link: "/photo",
+  },
+  {
+    id: "rt7",
+    title: "Start Work",
+    subtitle: "Review first day instructions",
+    status: "locked",
+    link: "/first-day",
+  },
+];
+
+/** ✅ NEW: Stepper state (puedes cambiarlo cuando quieras) */
+export const stepperState = {
+  steps: ["Application", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"],
+  currentIndex: 1, // 0=Application, 1=Docs
+};
