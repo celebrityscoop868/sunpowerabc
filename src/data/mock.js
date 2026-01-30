@@ -17,14 +17,14 @@ export const requiredTasks = [
     id: "rt1",
     title: "Apply",
     desc: "Pre-approved before access",
-    status: "completed", // completed | pending | locked
+    status: "completed",
     to: "/progress",
   },
   {
     id: "rt2",
     title: "Employment Documents",
     desc: "Acknowledge required policies",
-    status: "pending",
+    status: "completed",
     to: "/documents",
   },
   {
