@@ -5,14 +5,14 @@ import { requiredTasks, stepperState } from "../data/mock.js";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 
-function Stepper({ steps, currentIndex = 0 }) {
+function Stepper({ steps, currentIndex = 0, completedIndex = -1 }) {
   return (
     <div className="rounded-2xl border bg-white p-4 shadow-sm">
       {/* Grid fijo: cada columna amarra círculo + label */}
       <div className="grid grid-cols-7 gap-2">
         {steps.map((label, i) => {
           // ✅ Done: todo lo que está ANTES del currentIndex
-          const done = i < currentIndex;
+          const done = i <= completedIndex;
           const current = i === currentIndex;
           const last = i === steps.length - 1;
 
@@ -104,7 +104,11 @@ export default function Progress() {
     <div className="space-y-4">
       <div className="text-3xl font-extrabold text-slate-900">Progress</div>
 
-      <Stepper steps={steps} currentIndex={currentIndex} />
+      <Stepper
+  steps={steps}
+  currentIndex={currentIndex}
+  completedIndex={stepperState.completedIndex}
+/>
 
       <ContinueCta currentIndex={currentIndex} />
 
