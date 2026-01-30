@@ -34,7 +34,7 @@ function Stepper({ steps, currentIndex = 1 }) {
 
               <div
                 className={[
-                  "mt-2 max-w-[45px] text-center text-[11px] font-semibold leading-tight",
+                  "mt-2 max-w-[40px] text-center text-[11px] font-semibold leading-tight",
                   i === currentIndex ? "text-slate-900" : "text-slate-500",
                 ].join(" ")}
               >
@@ -74,7 +74,7 @@ export default function Progress() {
       <div className="text-2xl font-bold text-slate-900">Progress</div>
 
       <Stepper
-        steps={["Application", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"]}
+        steps={["Apply", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"]}
         currentIndex={1}
       />
 
