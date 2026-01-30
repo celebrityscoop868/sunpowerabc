@@ -68,7 +68,7 @@ export default function Progress() {
       <div className="text-2xl font-bold text-slate-900">Progress</div>
 
       <Stepper
-        steps={["Application", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"]}
+        steps={["Apply", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"]}
         currentIndex={1}
       />
 
