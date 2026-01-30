@@ -70,7 +70,7 @@ export const requiredTasks = [
 export const stepperState = {
   steps: ["Apply", "Docs", "I-9", "PPE", "Shift", "Photo", "Start"],
   currentIndex: 1,     // dónde estás parado (Docs)
-  completedIndex: 0,   // ✅ hasta dónde está completado (Apply)
+  completedIndex: 0,   // ✅ hasta dónde está completado (Apply) => muestra check en Apply
 };
 
 // ==========================
