@@ -1,19 +1,6 @@
 import React from "react";
 import { Check, Lock, AlertCircle, ChevronRight } from "lucide-react";
-import { cn } from "../../lib/utils.js";
-
-/**
- * Normaliza status del repo actual (completed | pending | locked)
- * a status interno del card (completed | available | locked | needs_fix)
- */
-function normalizeStatus(status) {
-  if (status === "completed") return "completed";
-  if (status === "locked") return "locked";
-  if (status === "needs_fix") return "needs_fix";
-  // pending => available (porque en tu UI pending es el "siguiente" clickeable si lo habilitas)
-  if (status === "pending") return "available";
-  return "locked";
-}
+import { cn } from "@/lib/utils";
 
 const statusConfig = {
   locked: {
@@ -28,7 +15,7 @@ const statusConfig = {
     bg: "bg-orange-50",
     iconColor: "text-orange-500",
     border: "border-orange-200",
-    text: "Pending",
+    text: "Available",
   },
   completed: {
     icon: Check,
@@ -47,54 +34,44 @@ const statusConfig = {
 };
 
 export default function TaskCard({ task, onClick, index = 0, clickable = true }) {
-  const normalized = normalizeStatus(task?.status);
-  const cfg = statusConfig?.[normalized] || statusConfig.locked;
+  const cfg = statusConfig?.[task?.status] || statusConfig.locked;
   const Icon = cfg.icon;
 
-  // Si quieres que NUNCA sean clickeables (como pediste en Required Tasks),
-  // pasa clickable={false} desde el listado.
-  const isClickable =
-    clickable && (normalized === "available" || normalized === "needs_fix");
+  // ✅ Si clickable=false, NUNCA navega aunque el status sea available
+  const canInteract =
+    clickable && (task?.status === "available" || task?.status === "needs_fix");
 
   const handleClick = () => {
-    if (!isClickable) return;
+    if (!canInteract) return;
     onClick?.(task);
   };
 
   const handleKeyDown = (e) => {
-    if (!isClickable) return;
+    if (!canInteract) return;
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onClick?.(task);
     }
   };
 
-  const title = task?.title ?? "";
-  const description = task?.desc ?? task?.description ?? "";
-
   return (
     <div
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      role={isClickable ? "button" : undefined}
-      tabIndex={isClickable ? 0 : -1}
-      aria-disabled={!isClickable}
+      role={canInteract ? "button" : undefined}
+      tabIndex={canInteract ? 0 : -1}
+      aria-disabled={!canInteract}
       className={cn(
         "flex items-center gap-4 p-4 rounded-xl border transition-all",
         cfg.border,
-        isClickable
+        canInteract
           ? "cursor-pointer hover:shadow-md active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-blue-200"
           : "cursor-default opacity-75",
         "animate-in fade-in slide-in-from-left-2"
       )}
       style={{ animationDelay: `${Math.min(index * 50, 300)}ms` }}
     >
-      <div
-        className={cn(
-          "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0",
-          cfg.bg
-        )}
-      >
+      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0", cfg.bg)}>
         <Icon size={20} className={cfg.iconColor} />
       </div>
 
@@ -102,17 +79,17 @@ export default function TaskCard({ task, onClick, index = 0, clickable = true })
         <h4
           className={cn(
             "font-medium text-slate-800",
-            normalized === "completed" && "line-through text-slate-500"
+            task?.status === "completed" && "line-through text-slate-500"
           )}
         >
-          {title}
+          {task?.title}
         </h4>
 
-        {description ? (
-          <p className="text-sm text-slate-500 truncate">{description}</p>
+        {task?.description ? (
+          <p className="text-sm text-slate-500 truncate">{task.description}</p>
         ) : null}
 
-        {task?.note && normalized === "needs_fix" ? (
+        {task?.note && task?.status === "needs_fix" ? (
           <p className="text-xs text-red-700 mt-1 bg-red-50 px-2 py-1 rounded inline-block">
             {task.note}
           </p>
