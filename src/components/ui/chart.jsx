@@ -1,5 +1,8 @@
+"use client";
+
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
+
 import { cn } from "@/lib/utils";
 
 const THEMES = {
@@ -28,32 +31,18 @@ const ChartContainer = React.forwardRef(function ChartContainer(
         data-chart={chartId}
         ref={ref}
         className={cn(
-          "flex aspect-video justify-center text-xs " +
-            "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground " +
-            "[&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 " +
-            "[&_.recharts-curve.recharts-tooltip-cursor]:stroke-border " +
-            "[&_.recharts-dot[stroke='#fff']]:stroke-transparent " +
-            "[&_.recharts-layer]:outline-none " +
-            "[&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border " +
-            "[&_.recharts-radial-bar-background-sector]:fill-muted " +
-            "[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted " +
-            "[&_.recharts-reference-line_[stroke='#ccc']]:stroke-border " +
-            "[&_.recharts-sector[stroke='#fff']]:stroke-transparent " +
-            "[&_.recharts-sector]:outline-none " +
-            "[&_.recharts-surface]:outline-none",
+          "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-none [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none",
           className
         )}
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>
-          {children}
-        </RechartsPrimitive.ResponsiveContainer>
+        <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
   );
 });
-ChartContainer.displayName = "ChartContainer";
+ChartContainer.displayName = "Chart";
 
 function ChartStyle({ id, config }) {
   const colorConfig = Object.entries(config || {}).filter(
@@ -187,9 +176,7 @@ const ChartTooltipContent = React.forwardRef(function ChartTooltipContent(
                   >
                     <div className="grid gap-1.5">
                       {nestLabel ? tooltipLabel : null}
-                      <span className="text-muted-foreground">
-                        {itemConfig?.label || item.name}
-                      </span>
+                      <span className="text-muted-foreground">{itemConfig?.label || item.name}</span>
                     </div>
 
                     {item.value != null && (
@@ -209,7 +196,7 @@ const ChartTooltipContent = React.forwardRef(function ChartTooltipContent(
     </div>
   );
 });
-ChartTooltipContent.displayName = "ChartTooltipContent";
+ChartTooltipContent.displayName = "ChartTooltip";
 
 const ChartLegend = RechartsPrimitive.Legend;
 
@@ -236,17 +223,12 @@ const ChartLegendContent = React.forwardRef(function ChartLegendContent(
         return (
           <div
             key={item.value}
-            className={cn(
-              "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
-            )}
+            className={cn("flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground")}
           >
             {itemConfig?.icon && !hideIcon ? (
               <itemConfig.icon />
             ) : (
-              <div
-                className="h-2 w-2 shrink-0 rounded-[2px]"
-                style={{ backgroundColor: item.color }}
-              />
+              <div className="h-2 w-2 shrink-0 rounded-[2px]" style={{ backgroundColor: item.color }} />
             )}
             {itemConfig?.label}
           </div>
@@ -255,7 +237,7 @@ const ChartLegendContent = React.forwardRef(function ChartLegendContent(
     </div>
   );
 });
-ChartLegendContent.displayName = "ChartLegendContent";
+ChartLegendContent.displayName = "ChartLegend";
 
 function getPayloadConfigFromPayload(config, payload, key) {
   if (typeof payload !== "object" || payload === null) return undefined;
