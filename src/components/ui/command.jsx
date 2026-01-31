@@ -61,9 +61,7 @@ const CommandList = React.forwardRef(function CommandList({ className, ...props 
 CommandList.displayName = "CommandList";
 
 const CommandEmpty = React.forwardRef(function CommandEmpty(props, ref) {
-  return (
-    <CommandPrimitive.Empty ref={ref} className="py-6 text-center text-sm" {...props} />
-  );
+  return <CommandPrimitive.Empty ref={ref} className="py-6 text-center text-sm" {...props} />;
 });
 CommandEmpty.displayName = "CommandEmpty";
 
@@ -83,7 +81,11 @@ CommandGroup.displayName = "CommandGroup";
 
 const CommandSeparator = React.forwardRef(function CommandSeparator({ className, ...props }, ref) {
   return (
-    <CommandPrimitive.Separator ref={ref} className={cn("-mx-1 h-px bg-border", className)} {...props} />
+    <CommandPrimitive.Separator
+      ref={ref}
+      className={cn("-mx-1 h-px bg-border", className)}
+      {...props}
+    />
   );
 });
 CommandSeparator.displayName = "CommandSeparator";
