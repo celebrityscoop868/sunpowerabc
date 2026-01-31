@@ -1,8 +1,5 @@
-"use client";
-
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
-
 import { cn } from "@/lib/utils";
 
 const THEMES = {
@@ -31,18 +28,32 @@ const ChartContainer = React.forwardRef(function ChartContainer(
         data-chart={chartId}
         ref={ref}
         className={cn(
-          "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-none [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none",
+          "flex aspect-video justify-center text-xs " +
+            "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground " +
+            "[&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 " +
+            "[&_.recharts-curve.recharts-tooltip-cursor]:stroke-border " +
+            "[&_.recharts-dot[stroke='#fff']]:stroke-transparent " +
+            "[&_.recharts-layer]:outline-none " +
+            "[&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border " +
+            "[&_.recharts-radial-bar-background-sector]:fill-muted " +
+            "[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted " +
+            "[&_.recharts-reference-line_[stroke='#ccc']]:stroke-border " +
+            "[&_.recharts-sector[stroke='#fff']]:stroke-transparent " +
+            "[&_.recharts-sector]:outline-none " +
+            "[&_.recharts-surface]:outline-none",
           className
         )}
         {...props}
       >
-        <ChartStyle id={chartchartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
+        <ChartStyle id={chartId} config={config} />
+        <RechartsPrimitive.ResponsiveContainer>
+          {children}
+        </RechartsPrimitive.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
   );
 });
-ChartContainer.displayName = "Chart";
+ChartContainer.displayName = "ChartContainer";
 
 function ChartStyle({ id, config }) {
   const colorConfig = Object.entries(config || {}).filter(
@@ -156,8 +167,7 @@ const ChartTooltipContent = React.forwardRef(function ChartTooltipContent(
                           {
                             "h-2.5 w-2.5": indicator === "dot",
                             "w-1": indicator === "line",
-                            "w-0 border-[1.5px] border-dashed bg-transparent":
-                              indicator === "dashed",
+                            "w-0 border-[1.5px] border-dashed bg-transparent": indicator === "dashed",
                             "my-0.5": nestLabel && indicator === "dashed",
                           }
                         )}
@@ -199,7 +209,7 @@ const ChartTooltipContent = React.forwardRef(function ChartTooltipContent(
     </div>
   );
 });
-ChartTooltipContent.displayName = "ChartTooltip";
+ChartTooltipContent.displayName = "ChartTooltipContent";
 
 const ChartLegend = RechartsPrimitive.Legend;
 
@@ -245,7 +255,7 @@ const ChartLegendContent = React.forwardRef(function ChartLegendContent(
     </div>
   );
 });
-ChartLegendContent.displayName = "ChartLegend";
+ChartLegendContent.displayName = "ChartLegendContent";
 
 function getPayloadConfigFromPayload(config, payload, key) {
   if (typeof payload !== "object" || payload === null) return undefined;
@@ -261,11 +271,7 @@ function getPayloadConfigFromPayload(config, payload, key) {
 
   if (key in payload && typeof payload[key] === "string") {
     configLabelKey = payload[key];
-  } else if (
-    payloadPayload &&
-    key in payloadPayload &&
-    typeof payloadPayload[key] === "string"
-  ) {
+  } else if (payloadPayload && key in payloadPayload && typeof payloadPayload[key] === "string") {
     configLabelKey = payloadPayload[key];
   }
 
